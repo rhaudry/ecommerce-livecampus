@@ -1,6 +1,7 @@
 const { Sequelize, Op } = require("sequelize");
 const getDb = require("../sequelize");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 async function main() {
   const sequelize = await getDb();
@@ -11,7 +12,6 @@ main();
 const saltRounds = 10;
 exports.create = async (req, res) => {
   const body = req.body;
-  console.log("req.body", body.length)
   try {
     if (body.length === 0) {
       res.status(400).send({
@@ -46,71 +46,75 @@ exports.create = async (req, res) => {
   res.status(200).send({ message: "Done" });
 };
 
-
 exports.findAll = (req, res) => {
-  Users.findAll({
+  if (jwt.verify(req.body.token, 'privatekey')) {
+    Users.findAll({
 
-    where: req.body,
-  })
-
-    .then(data => {
-      res.send(data);
+      where: req.body,
     })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred"
+
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred"
+        });
       });
-    });
+  }
 };
 
 exports.update = (req, res) => {
-  const id = req.params.id;
+  if (jwt.verify(req.body.token, 'privatekey')) {
+    const id = req.params.id;
 
-  Users.update(req.body[0], {
-    where: { id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "product was updated successfully."
-        });
-      } else {
-        res.send({
-          message: `Cannot update product with id=${id}. Maybe product was not found or req.body is empty!`
-        });
-      }
+    Users.update(req.body[0], {
+      where: { id: id }
     })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error updating product with id=" + id
+      .then(num => {
+        if (num == 1) {
+          res.send({
+            message: "product was updated successfully."
+          });
+        } else {
+          res.send({
+            message: `Cannot update product with id=${id}. Maybe product was not found or req.body is empty!`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Error updating product with id=" + id
+        });
       });
-    });
+  }
 };
 
-// Delete a Tutorial with the specified id in the request
 exports.delete = (req, res) => {
-  const id = req.params.id;
+  if (jwt.verify(req.body.token, 'privatekey')) {
+    const id = req.params.id;
 
-  Users.destroy({
-    where: { id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "product was deleted successfully!"
-        });
-      } else {
-        res.send({
-          message: `Cannot delete product with id=${id}. Maybe product was not found!`
-        });
-      }
+    Users.destroy({
+      where: { id: id }
     })
-    .catch(err => {
-      res.status(500).send({
-        message: "Could not delete product with id=" + id
+      .then(num => {
+        if (num == 1) {
+          res.send({
+            message: "product was deleted successfully!"
+          });
+        } else {
+          res.send({
+            message: `Cannot delete product with id=${id}. Maybe product was not found!`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Could not delete product with id=" + id
+        });
       });
-    });
+  }
 };
 
 exports.login = async (req, res) => {
@@ -118,15 +122,22 @@ exports.login = async (req, res) => {
   const data = await Users.findOne({
     where: { email: req.body.email }
   })
-  const {firstname, lastname, privilege} = data.dataValues;
   console.log("data", data);
   try {
-    if (!data) { throw new Error("user not found")}
+    if (!data) { throw new Error("user not found") }
     const result = await bcrypt.compare(req.body.password, data.password);
     console.log("result", result);
-    res.status(200).send({firstname, lastname, privilege});
+    const token = jwt.sign({ data }, 'privatekey', { expiresIn: '1h' });
+
+    if (token) {
+      console.log("token", token)
+      res.status(200).send({
+        message: "token envoyé ?",
+        token
+      });
+    }
   } catch (error) {
     console.error(error);
-    res.status(500).send({message : "fail to login"});
+    res.status(500).send({ message: "fail to login" });
   }
 };

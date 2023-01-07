@@ -1,6 +1,8 @@
 const { Sequelize, Op } = require("sequelize");
 const getDb = require("../sequelize");
 const jwt = require('jsonwebtoken');
+require('dotenv').config({ debug: true, path: __dirname + "/../.env" })
+const secret_token = process.env.SECRET_TOKEN;
 
 async function main() {
   const sequelize = await getDb();
@@ -9,7 +11,7 @@ async function main() {
 main();
 
 exports.create = (req, res) => {
-  if (jwt.verify(req.body.token, 'privatekey')) {
+  if (jwt.verify(req.body.token, secret_token)) {
     if (!req.body) {
       res.status(400).send({
         message: "Content can not be empty!"
@@ -32,7 +34,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-  if (jwt.verify(req.body.token, 'privatekey')) {
+  if (jwt.verify(req.body.token, secret_token)) {
     Products.findAll({
 
       where: req.body,
@@ -51,7 +53,7 @@ exports.findAll = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  if (jwt.verify(req.body.token, 'privatekey')) {
+  if (jwt.verify(req.body.token, secret_token)) {
     const id = req.params.id;
 
     Products.update(req.body[0], {
@@ -78,7 +80,7 @@ exports.update = (req, res) => {
 
 // Delete a Tutorial with the specified id in the request
 exports.delete = (req, res) => {
-  if (jwt.verify(req.body.token, 'privatekey')) {
+  if (jwt.verify(req.body.token, secret_token)) {
     const id = req.params.id;
 
     Products.destroy({

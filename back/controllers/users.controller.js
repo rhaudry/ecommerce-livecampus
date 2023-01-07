@@ -1,4 +1,6 @@
 const { Sequelize, Op } = require("sequelize");
+require('dotenv').config({ debug: true, path: __dirname + "/../.env" })
+const secret_token = process.env.SECRET_TOKEN;
 const getDb = require("../sequelize");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -47,7 +49,7 @@ exports.create = async (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-  if (jwt.verify(req.body.token, 'privatekey')) {
+  if (jwt.verify(req.body.token, secret_token)) {
     Users.findAll({
 
       where: req.body,
@@ -66,7 +68,7 @@ exports.findAll = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  if (jwt.verify(req.body.token, 'privatekey')) {
+  if (jwt.verify(req.body.token, secret_token)) {
     const id = req.params.id;
 
     Users.update(req.body[0], {
@@ -92,7 +94,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  if (jwt.verify(req.body.token, 'privatekey')) {
+  if (jwt.verify(req.body.token, secret_token)) {
     const id = req.params.id;
 
     Users.destroy({
@@ -118,21 +120,22 @@ exports.delete = (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  console.log("req", req.body);
   const data = await Users.findOne({
     where: { email: req.body.email }
   })
-  console.log("data", data);
   try {
     if (!data) { throw new Error("user not found") }
     const result = await bcrypt.compare(req.body.password, data.password);
-    console.log("result", result);
-    const token = jwt.sign({ data }, 'privatekey', { expiresIn: '1h' });
+    const token = jwt.sign({ data }, secret_token, { expiresIn: '1h' });
 
     if (token) {
-      console.log("token", token)
       res.status(200).send({
-        message: "token envoyé ?",
+        user: {
+          email: data.email,
+          firstname: data.firstname,
+          lastname: data.lastname,
+          privilege: data.privilege,
+        },
         token
       });
     }

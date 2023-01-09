@@ -15,7 +15,7 @@ const saltRounds = 10;
 exports.create = async (req, res) => {
   const body = req.body;
   try {
-    if (body.length === 0) {
+    if (body.length === 0 && !body && !body[0]) {
       res.status(400).send({
         message: "Content can not be empty!"
       });
@@ -37,6 +37,7 @@ exports.create = async (req, res) => {
           });
         })
       );
+      res.status(200).send({ message: "Done" });
     } catch (error) {
       console.error(error);
       res.status(500).send("fail to create users");
@@ -45,7 +46,6 @@ exports.create = async (req, res) => {
     console.error(e);
     res.status(500).send("INTERNAL ERROR");
   }
-  res.status(200).send({ message: "Done" });
 };
 
 exports.findAll = (req, res) => {
@@ -120,6 +120,7 @@ exports.delete = (req, res) => {
 };
 
 exports.login = async (req, res) => {
+
   const data = await Users.findOne({
     where: { email: req.body.email }
   })

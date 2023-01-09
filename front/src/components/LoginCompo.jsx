@@ -1,8 +1,10 @@
 import React, { useRef } from 'react';
-import { useState } from 'react';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 
-const Login = () => {
+const cookies = new Cookies();
+
+const LoginCompo = () => {
     const email = useRef();
     const password = useRef();
 
@@ -11,11 +13,18 @@ const Login = () => {
             email: email.current.value,
             password: password.current.value
         })
-        console.log(result);
+        console.log(result.data);
+        if ((result.data.token !== undefined) && (result.data.user !== undefined)) {
+            cookies.set('token', result.data.token, { path: '/' });
+            cookies.set('user', result.data.user, { path: '/' })
+            window.location.reload(false);
+
+
+        }
+
     }
     return (
         <div>
-            {console.log(email)}
             <input ref={email} type="mail" />
             <input ref={password} type={"password"} />
             <button onClick={handleSubmit}>Valider</button>
@@ -23,4 +32,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default LoginCompo;

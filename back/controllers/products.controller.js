@@ -34,10 +34,11 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
+  console.log(req.body);
   if (jwt.verify(req.body.token, secret_token)) {
     Products.findAll({
 
-      where: req.body,
+      where: req.body.request,
     })
 
       .then(data => {

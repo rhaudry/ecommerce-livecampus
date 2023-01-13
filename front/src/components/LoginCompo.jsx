@@ -16,7 +16,7 @@ const LoginCompo = () => {
         console.log(result.data);
         if ((result.data.token !== undefined) && (result.data.user !== undefined)) {
             cookies.set('token', result.data.token, { path: '/' });
-            cookies.set('user', result.data.user, { path: '/' })
+            cookies.set('user', result.data.user, { path: '/' });
             window.location.reload(false);
 
 

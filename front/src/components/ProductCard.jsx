@@ -1,15 +1,18 @@
 import React from 'react';
 import '../styles/productCard.css'
 import cat from '../assets/cat.jpeg';
-
-function handleClick(e, product) {
-    console.log(product);
-}
+import { useNavigate } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
+    const navigate = useNavigate();
     console.log("productCard", product.photo);
+
+    function handleClick(e, product) {
+        console.log(product.id);
+        navigate('/product/' + product.id, { replace: true });
+    }
     return (
-        <div key={product.id} onClick={(e) => handleClick(e, product.id)}>
+        <div key={product.id} onClick={(e) => handleClick(e, product)}>
             <div key={product.id} className='productCard' >
                 <h1 className='cardTitle'>{product.name}</h1>
                 <img className='cardImage' src={product.photo ? product.photo : cat} alt="product" />
@@ -18,7 +21,6 @@ const ProductCard = ({ product }) => {
             </div>
             <div className='cardPriceBox'>
                 <p className='cardPrice' >{product.price}€ TTC</p>
-                <button className='cardSell'>Ajouter au panier</button>
             </div>
         </div>
     );

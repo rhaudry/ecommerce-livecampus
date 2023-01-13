@@ -7,6 +7,8 @@ module.exports = app => {
   router.post("/products/", Products.create);
   // Retrieve all products
   router.post("/products/get/", Products.findAll);
+
+  router.get("/products/get/:id", Products.findOne);
   // Update a Tutorial with id
   router.put("/products/:id", Products.update);
   // Delete a Tutorial with id

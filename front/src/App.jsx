@@ -2,6 +2,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
 import User from './pages/User';
+import Detail from './pages/Detail';
+import Cart from './pages/Cart';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
 import Cookies from 'universal-cookie';
@@ -12,11 +14,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={token ? <Home /> : <Login />} />
+        <Route path='/' element={<Home />} />
         <Route path='/login' element={token ? <Home /> : <Login />} />
         <Route path='/register' element={token ? <Home /> : <Register />} />
-        <Route path='/home' element={token ? <Home /> : <Login />} />
+        <Route path='/home' element={<Home />} />
         <Route path='/user' element={token ? <User /> : <Login />} />
+        <Route path='/product/:id' element={<Detail />} />
+        <Route path='/cart/' element={token ? <Cart /> : <Login />} />
       </Routes>
     </BrowserRouter>
   );

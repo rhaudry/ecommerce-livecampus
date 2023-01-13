@@ -1,0 +1,60 @@
+.detailBox {
+    background-color: gainsboro;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: fit-content;
+    width: 60%;
+    margin: 50px auto;
+
+    border-radius: 10px;
+}
+
+.detailBoxItems {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.detailTitle {
+    border-radius: 10px 10px 0px 0px;
+    background-color: #2ca6bc;
+    text-align: center;
+    width: 100%;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    margin: 0px 10px 10px 10px;
+}
+
+.detailImage {
+    width: 90%;
+    height: 90%;
+    margin: 5%;
+    border-radius: 10px;
+}
+
+.detailImageBox {
+    width: 50%;
+    height: 50%;
+    position: relative;
+    left: 0px;
+}
+
+.detailInfoBox {
+    position: relative;
+    top: 0%;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.detailDesc {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px;
+}

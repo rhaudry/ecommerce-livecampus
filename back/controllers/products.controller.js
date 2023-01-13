@@ -35,22 +35,38 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
   console.log(req.body);
-  if (jwt.verify(req.body.token, secret_token)) {
-    Products.findAll({
+  Products.findAll({
 
-      where: req.body.request,
+    where: req.body.request,
+  })
+
+    .then(data => {
+      res.send(data);
     })
-
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred"
-        });
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred"
       });
-  }
+    });
+};
+
+exports.findOne = (req, res) => {
+  const id = req.params.id;
+  Products.findAll({
+
+    where: id ? { id: id } : null,
+  })
+
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred"
+      });
+    });
 };
 
 exports.update = (req, res) => {

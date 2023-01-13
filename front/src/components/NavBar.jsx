@@ -3,6 +3,7 @@ import logo from '../assets/logo.svg';
 import '../styles/navBar.css';
 import Logout from './Logout';
 import Cookies from 'universal-cookie';
+import CartCompo from './CartCompo';
 const cookies = new Cookies();
 var token;
 
@@ -18,7 +19,9 @@ const NavBar = () => {
                 {!token ? <a href="/register" className='btn'>S'enregistrer</a> : null}
                 {!token ? <a href="/login" className='btn'>Se connecter</a> : null}
                 {token ? <Logout /> : null}
+                <CartCompo></CartCompo>
             </div>
+
         </div>
     );
 };

@@ -11,14 +11,15 @@ const NavBar = () => {
     token = cookies.get('token') !== undefined;
     return (
         <div className='navBox'>
-            <div className='namePack'>
+            <a className='namePack' href='/'>
                 <img src={logo} alt="watch logo" />
-                <h2>Watch store</h2>
-            </div>
+                <h2>LaMontreDuCoin.fr</h2>
+            </a>
             <div className='btnBox'>
-                {!token ? <a href="/register" className='btn'>S'enregistrer</a> : null}
-                {!token ? <a href="/login" className='btn'>Se connecter</a> : null}
-                {token ? <Logout /> : null}
+                {token && <a href="/user" className='btn'>Mon compte</a>}
+                {!token && <a href="/register" className='btn'>S'enregistrer</a>}
+                {!token && <a href="/login" className='btn'>Se connecter</a>}
+                {token && <Logout />}
                 <CartCompo></CartCompo>
             </div>
 

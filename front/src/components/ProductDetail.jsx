@@ -3,10 +3,10 @@ import cat from '../assets/cat.jpeg';
 import '../styles/productDetail.css'
 import Cookies from 'universal-cookie';
 import { useRef } from 'react';
+const cookies = new Cookies();
 
 
 const ProductDetail = ({ product }) => {
-    const cookies = new Cookies();
     const quantity = useRef(0);
     function addToCart() {
         const cart = cookies.get('cart');
@@ -16,6 +16,7 @@ const ProductDetail = ({ product }) => {
             cookies.set('cart', [...cart, [parseInt(quantity.current.value), product]], { path: '/' });
         }
         alert('Produit ajouté au panier');
+        window.location.reload(false);
     }
     return (
         <div className='detailBox'>
@@ -28,7 +29,7 @@ const ProductDetail = ({ product }) => {
                     <p className='detailDesc'>Plus d'infos : {product.description}</p>
                     <p className='detailPrice'>{product.price}€ TTC</p>
                     <input ref={quantity} min={0} type="number" />
-                    <button onClick={addToCart} className='detailSell'>Ajouter au panier</button>
+                    <button onClick={addToCart} className='detailSell btn'>Ajouter au panier</button>
                 </div>
             </div>
         </div>

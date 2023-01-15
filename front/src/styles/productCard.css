@@ -1,10 +1,12 @@
 .productCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     border-radius: 10px 10px 0px 0px;
     height: 300px;
     width: 200px;
-    background-color: #bdd8e8;
-    box-shadow: 1px 22px 31px -8px #cbcbcb;
-    display: inline-block;
+    background-color: #ffffff;
+    box-shadow: 1px 2px 31px 1px #cbcbcb;
     cursor: pointer;
     color: #ffffff;
     font-family: Arial;
@@ -22,7 +24,7 @@
     max-height: 170px;
     width: auto;
     max-width: 100%;
-    margin: 0px;
+    margin: 0px 0px 20px 0px;
 
     align-items: center;
 }
@@ -37,6 +39,7 @@
 .cardTitle {
     color: #255861;
     margin: 5px;
+    font-size: 20px;
     text-align: center;
 }
 

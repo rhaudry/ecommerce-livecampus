@@ -1,0 +1,40 @@
+.userBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid #d1d1d1;
+    padding: 5px;
+    margin: 50px auto;
+    width: 800px;
+    height: fit-content;
+    border-radius: 10px;
+}
+
+.userBox>h1 {
+    color: #255861;
+}
+
+.accountItem {
+    margin: 10px;
+}
+
+.accountItem>label {
+    margin: 5px;
+}
+
+.orderItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0px 10px;
+    width: 100%;
+    border-bottom: 2px solid #d1d1d1;
+    border-top: 2px solid #d1d1d1;
+
+}
+
+.orderItem>p {
+    padding: 5px;
+    margin: 5px;
+}

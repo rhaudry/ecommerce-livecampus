@@ -1,0 +1,29 @@
+.cartListBox {
+    height: fit-content;
+    width: 60%;
+    margin: 50px auto;
+}
+
+.cart h1 {
+    text-align: center;
+    border-radius: 10px 10px 0px 0px;
+    background: #2ca6bc;
+    color: white;
+    margin-bottom: 0px;
+}
+
+.cartListBox>div {
+    background-color: gainsboro;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: fit-content;
+    width: 100%;
+    margin: 0px;
+
+    border-radius: 0px 0px 10px 10px;
+}
+
+.thItem {
+    padding: 10px;
+}

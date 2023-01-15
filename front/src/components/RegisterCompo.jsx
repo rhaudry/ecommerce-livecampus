@@ -2,6 +2,7 @@ import { useState, useRef, React } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
+import "../styles/registerCompo.css"
 
 const cookies = new Cookies();
 
@@ -42,15 +43,32 @@ const RegisterCompo = () => {
     }
     return (
         <div>
-            <label>Firstname</label>
-            <input ref={firstname} type="text" />
-            <label>Lastname</label>
-            <input ref={lastname} type="text" />
-            <label>Email</label>
-            <input ref={email} type="email" />
-            <label>Password</label>
-            <input value={password.value} type={"password"} onChange={(e) => setPassword(e.target.value)} />
-            <button onClick={handleSubmit}>Valider l'inscription</button>
+            <a href="/" className='btn'>Retour</a>
+            <div className='registerBox'>
+                <h1>Enregistrement</h1>
+                <div className='registerItem'>
+                    <label>Prénom</label>
+                    <input ref={firstname} type="text" />
+                </div>
+                <div className='registerItem'>
+                    <label>Nom de famille</label>
+                    <input ref={lastname} type="text" />
+                </div>
+                <div className='registerItem'>
+                    <label>Email</label>
+                    <input ref={email} type="email" />
+                </div>
+                <div className='registerItem'>
+                    <label>Mot de passe</label>
+                    <input value={password.value} type={"password"} onChange={(e) => setPassword(e.target.value)} />
+                </div>
+                <div className='registerItem'>
+                    <button onClick={handleSubmit} className="btn">Valider l'inscription</button>
+                </div>
+                <div className='registerItem'>
+                    <a href="/login">Déjà inscrit ? Se connecter ici !</a>
+                </div>
+            </div>
         </div>
     );
 };

@@ -1,5 +1,6 @@
 const { Sequelize, Op } = require("sequelize");
 const getDb = require("../sequelize");
+const jwt = require('jsonwebtoken');
 require('dotenv').config({ debug: true, path: __dirname + "/../.env" })
 const secret_token = process.env.SECRET_TOKEN;
 
@@ -18,28 +19,28 @@ exports.create = (req, res) => {
       return;
     }
     const orders = req.body;
-    orders.forEach(element => {
-      Orders.create(element)
-        .catch(err => {
-          console.log(err);
-          res.status(500).send({
-            message:
-              err.message || "Some error occurred while creating the Tutorial."
-          });
+    Orders.create(orders)
+      .catch(err => {
+        console.log(err);
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the Tutorial."
         });
-    });
+      });
+
     res.send({ message: "Done" });
   }
 };
 
 exports.findAll = (req, res) => {
+  console.log("salut", req.body)
   if (jwt.verify(req.body.token, secret_token)) {
     Orders.findAll({
 
-      where: req.body,
+      where: user_id = req.body.user_id,
     })
-
       .then(data => {
+        console.log(data);
         res.send(data);
       })
       .catch(err => {

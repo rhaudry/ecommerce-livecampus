@@ -8,7 +8,6 @@ const ProductCard = ({ product }) => {
     console.log("productCard", product.photo);
 
     function handleClick(e, product) {
-        console.log(product.id);
         navigate('/product/' + product.id, { replace: true });
     }
     return (

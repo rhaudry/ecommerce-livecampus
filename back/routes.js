@@ -26,12 +26,12 @@ module.exports = app => {
   router.delete("/users/:id", Users.delete);
 
   // ORDERS ROUTES
-  router.post("/Orders/", Orders.create);
+  router.post("/orders/", Orders.create);
   // Retrieve all Orders
-  router.get("/Orders/", Orders.findAll);
+  router.post("/orders/get/", Orders.findAll);
   // Update a user with id
-  router.put("/Orders/:id", Orders.update);
+  router.put("/orders/:id", Orders.update);
   // Delete a user with id
-  router.delete("/Orders/:id", Orders.delete);
+  router.delete("/orders/:id", Orders.delete);
   app.use('/api', router);
 };

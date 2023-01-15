@@ -18,7 +18,7 @@ const ProductsList = () => {
     }, []);
     return (
         <div className='productsGlobalBox'>
-            <h1 className='productListTitle'>ProductList</h1>
+            <h1 className='productListTitle'>Nos montres du moment</h1>
             <div className='productsContainer'>
                 {products.map((product) => {
                     return <ProductCard product={product} key={product.id}></ProductCard>

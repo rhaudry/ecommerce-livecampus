@@ -28,9 +28,6 @@ exports.create = async (req, res) => {
         users.map(async (user) => {
           const hash = await bcrypt.hash(user.password, saltRounds);
           console.log("hash", hash)
-
-          // ça va throw une erreur si problem => qui va stopper toutes les promises,
-          // puis aller dans le try/catch
           await Users.create({
             ...user,
             password: hash
@@ -52,7 +49,7 @@ exports.findAll = (req, res) => {
   if (jwt.verify(req.body.token, secret_token)) {
     Users.findAll({
 
-      where: req.body,
+      where: req.body.user_id,
     })
 
       .then(data => {
@@ -70,26 +67,31 @@ exports.findAll = (req, res) => {
 exports.update = (req, res) => {
   if (jwt.verify(req.body.token, secret_token)) {
     const id = req.params.id;
-
-    Users.update(req.body[0], {
-      where: { id: id }
-    })
-      .then(num => {
-        if (num == 1) {
-          res.send({
-            message: "product was updated successfully."
-          });
-        } else {
-          res.send({
-            message: `Cannot update product with id=${id}. Maybe product was not found or req.body is empty!`
-          });
-        }
+    (async () => {
+      const hash = await bcrypt.hash(req.body.password, saltRounds);
+      Users.update({
+        ...req.body,
+        password: hash
+      }, {
+        where: { id: id }
       })
-      .catch(err => {
-        res.status(500).send({
-          message: "Error updating product with id=" + id
+        .then(num => {
+          if (num == 1) {
+            res.send({
+              message: "user was updated successfully."
+            });
+          } else {
+            res.send({
+              message: `Cannot user product with id=${id}. Maybe product was not found or req.body is empty!`
+            });
+          }
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: "Error updating product with id=" + id
+          });
         });
-      });
+    })()
   }
 };
 
@@ -132,6 +134,7 @@ exports.login = async (req, res) => {
     if (token) {
       res.status(200).send({
         user: {
+          id: data.id,
           email: data.email,
           firstname: data.firstname,
           lastname: data.lastname,

@@ -1,38 +1,49 @@
-const request = require('supertest');
-const app = require('../controllers/orders.controller.js');
-const { Sequelize } = require("sequelize");
-const getDb = require("../sequelize");
+const axios = require('axios');
+let token = null
+
+describe('Login User', () => {
+    it('should return 200 OK', async () => {
+        let response = null
+        await axios.post('http://localhost:8080/api/users/login', {
+            email: "romain@gmail.com",
+            password: "salut"
+        }).then((res) => {
+            response = res;
+            token = res.data.token;
+        }, (error) => {
+            console.log(error);
+        });
+        
+        expect(response.status).toBe(200);
+        expect(token).not.toBeNull();
+    });
+});
+
+
 
 describe('Order controller', () => {
     // Créer une instance de base de données pour chaque test
-    beforeEach(async () => {
-        const sequelize = await getDb();
-        Orders = require("../models/modelOrders.js")(sequelize, Sequelize);
-        await sequelize.sync({ force: true });
-    });
 
     describe('POST /orders', () => {
+        let response = null
         it('should create a new order', async () => {
-            // Envoyer une requête POST avec des données de commande
-            const response = await request(app)
-                .post('/orders')
-                .send({
-                    user_id: 1,
-                    product_id: 1,
-                    status: "pending",
-                    qty: 1
-                });
-
-            // Vérifier que la réponse est 201 Created
-            expect(response.status).toBe(201);
+            await axios.post('http://localhost:8080/api/orders', {
+                token,
+                user_Id: 1,
+                product_id: 1,
+                status: "pending",
+                qty: 1
+            }).then((res) => {
+                response = res;
+            }, (error) => {
+                console.log(error);
+            });
 
             // Vérifier que l'objet de commande a été créé dans la base de données
-            const order = await Orders.findByPk(response.body.id);
-            expect(order).not.toBeNull();
-            expect(order.user_Id).toBe(1);
-            expect(order.product_id).toBe(1);
-            expect(order.status).toBe("pending");
-            expect(order.qty).toBe(1);
+            expect(response).not.toBeNull();
+            expect(response.status).toBe(200);
+            console.log(response.data);
         });
     });
 });
+

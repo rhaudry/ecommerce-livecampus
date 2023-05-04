@@ -22,7 +22,8 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
+    - name: select back dir
+      run: cd back
 
     - name: Run Tests
-      path: ./back
       run: npm test

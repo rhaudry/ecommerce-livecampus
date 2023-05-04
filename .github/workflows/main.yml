@@ -11,14 +11,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
-      env:
-      DB_HOST: "localhost"
-      DB_PORT: "3306"
-      DB_USER: "myuser"
-      DB_PASSWORD: "mypassword"
-      DB_NAME: "mydatabase"
+  env:
+    DB_HOST: "localhost"
+    DB_PORT: "3306"
+    DB_USER: "myuser"
+    DB_PASSWORD: "mypassword"
+    DB_NAME: "mydatabase"
 
-    steps:
+  steps:
     - uses: actions/checkout@v2
 
     - name: Use Node.js

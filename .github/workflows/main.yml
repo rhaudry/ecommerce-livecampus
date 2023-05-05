@@ -34,14 +34,15 @@ jobs:
 
     - name: Change MySQL root password
       run: |
-        sudo mysql -e "CREATE DATABASE mydatabase;"
-        sudo mysql -e "CREATE USER 'myuser' IDENTIFIED BY 'mypassword';"
-        sudo mysql -e "GRANT ALL PRIVILEGES ON mydatabase.* TO 'myuser';"
+        sudo mysql -p -e "CREATE DATABASE mydatabase;"
+        sudo mysql -p -e "CREATE USER 'myuser' IDENTIFIED BY 'mypassword';"
+        sudo mysql -p -e "GRANT ALL PRIVILEGES ON mydatabase.* TO 'myuser';"
 
     - name: Import SQL dumps
       run: |
         cd sql\ dumps
-        mysqlimport --host=${{ env.DB_HOST }} --port=${{ env.DB_PORT }} --user=${{ env.DB_USER }} --password=${{ env.DB_PASSWORD }} --database=${{ env.DB_NAME }} --ignore-lines=1 --fields-terminated-by=, --verbose ./file1.sql ./file2.sql
+        sudo mysql -p -h ${DB_HOST} -P ${DB_PORT} -u ${DB_USER} -p${DB_PASSWORD} ${DB_NAME} < file1.sql
+        sudo mysql -p -h ${DB_HOST} -P ${DB_PORT} -u ${DB_USER} -p${DB_PASSWORD} ${DB_NAME} < file2.sql
 
     - name: Install dependencies
       run: cd back && npm ci

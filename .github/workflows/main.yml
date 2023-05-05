@@ -34,7 +34,7 @@ jobs:
 
     - name: Change MySQL root password
       run: |
-        sudo grep 'temporary password' /var/log/mysql/error.log
+        sudo cat /var/log/mysql/error.log
 
     - name: Import SQL dumps
       run: |

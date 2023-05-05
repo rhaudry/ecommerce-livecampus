@@ -35,10 +35,9 @@ jobs:
 
     - name: Start MySQL server
       run: |
-        mysql  --user=root --password='' -e "show databases;"
-        mysql -e "CREATE DATABASE mydatabase;"
-        mysql -e "CREATE USER 'myuser' IDENTIFIED BY 'mypassword';"
-        mysql -e "GRANT ALL PRIVILEGES ON mydatabase.* TO 'myuser';"
+        mysql --user=root -e "CREATE DATABASE mydatabase;"
+        mysql --user=root -e "CREATE USER 'myuser' IDENTIFIED BY 'mypassword';"
+        mysql --user=root -e "GRANT ALL PRIVILEGES ON mydatabase.* TO 'myuser';"
 
     - name: Import SQL dumps
       run: |

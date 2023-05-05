@@ -10,43 +10,43 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-  env:
-    DB_HOST: "localhost"
-    DB_PORT: "3306"
-    DB_USER: "myuser"
-    DB_PASSWORD: "mypassword"
-    DB_NAME: "mydatabase"
+    env:
+      DB_HOST: "localhost"
+      DB_PORT: "3306"
+      DB_USER: "myuser"
+      DB_PASSWORD: "mypassword"
+      DB_NAME: "mydatabase"
 
-  steps:
-  - uses: actions/checkout@v2
+    steps:
+    - uses: actions/checkout@v2
 
-  - name: Use Node.js
-    uses: actions/setup-node@v2
-    with:
-      node-version: '14.x'
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
 
 
-  - name: Install MySQL client
-    run: sudo apt-get update && sudo apt-get install -y mysql-client
+    - name: Install MySQL client
+      run: sudo apt-get update && sudo apt-get install -y mysql-client
 
-  - name: Start MySQL server
-    run: |
-      sudo service mysql start
-      mysql -e "CREATE DATABASE mydatabase;"
-      mysql -e "CREATE USER 'myuser' IDENTIFIED BY 'mypassword';"
-      mysql -e "GRANT ALL PRIVILEGES ON mydatabase.* TO 'myuser';"
+    - name: Start MySQL server
+      run: |
+        sudo service mysql start
+        mysql -e "CREATE DATABASE mydatabase;"
+        mysql -e "CREATE USER 'myuser' IDENTIFIED BY 'mypassword';"
+        mysql -e "GRANT ALL PRIVILEGES ON mydatabase.* TO 'myuser';"
 
-  - name: Import SQL dumps
-    run: |
-      cd sql\ dumps
-      mysqlimport --host=localhost --user=myuser --password=mypassword --database=mydatabase --ignore-lines=1 --fields-terminated-by=, --verbose ./file1.sql ./file2.sql
+    - name: Import SQL dumps
+      run: |
+        cd sql\ dumps
+        mysqlimport --host=localhost --user=myuser --password=mypassword --database=mydatabase --ignore-lines=1 --fields-terminated-by=, --verbose ./file1.sql ./file2.sql
 
-  - name: Install dependencies
-    run: cd back && npm ci
+    - name: Install dependencies
+      run: cd back && npm ci
 
-  - name: Start server
-    run: cd back && npm start &
-    # Le symbole "&" permet d'exécuter la commande en arrière-plan
+    - name: Start server
+      run: cd back && npm start &
+      # Le symbole "&" permet d'exécuter la commande en arrière-plan
 
-  - name: Run tests
-    run: cd back && npm test
+    - name: Run tests
+      run: cd back && npm test

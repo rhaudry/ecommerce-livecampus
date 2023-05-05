@@ -33,7 +33,7 @@ jobs:
         sudo systemctl status mysql
 
     - name: Update MySQL root password
-      run: mysql -u root -p -e "UPDATE mysql.user SET authentication_string = PASSWORD('1234') WHERE User = 'root'; FLUSH PRIVILEGES;"
+      run: mysql -u root -e "UPDATE mysql.user SET authentication_string = PASSWORD('1234') WHERE User = 'root'; FLUSH PRIVILEGES;"
       env:
         MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
 

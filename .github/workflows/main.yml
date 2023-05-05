@@ -35,7 +35,7 @@ jobs:
   # Get temporary password
     - name: Get MySQL temp password
       run: |
-        sudo grep 'temporary password' /var/log/mysql/error.log > /tmp/mysql_pass.txt
+        sudo grep 'temporary password' /var/log/mysqld.log > /tmp/mysql_pass.txt
         export MYSQL_TEMP_PASSWORD=$(awk '{print $NF}' /tmp/mysql_pass.txt)
         echo "MySQL temporary password: $MYSQL_TEMP_PASSWORD"
     # Change root password

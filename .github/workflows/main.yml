@@ -35,7 +35,7 @@ jobs:
 
     - name: Start MySQL server
       run: |
-        mysql -u myuser -p mypassword -h localhost -P 3306 -e "SHOW DATABASES;"
+        mysql  --user=root --password='' -e "show databases;"
         mysql -e "CREATE DATABASE mydatabase;"
         mysql -e "CREATE USER 'myuser' IDENTIFIED BY 'mypassword';"
         mysql -e "GRANT ALL PRIVILEGES ON mydatabase.* TO 'myuser';"

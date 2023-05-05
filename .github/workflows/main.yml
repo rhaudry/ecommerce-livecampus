@@ -36,7 +36,7 @@ jobs:
       run: |
         ls /var/log
         ls /var/log/mysql
-        sudo cat /var/log/mysql/error.log
+        sudo grep 'password' /var/log/mysql/error.log
 
     - name: Import SQL dumps
       run: |

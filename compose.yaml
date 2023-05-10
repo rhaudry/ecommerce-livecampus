@@ -1,0 +1,69 @@
+version: '3'
+services:
+  back:
+    build:
+      context: back
+    command: npm start
+    environment:
+      - DB_NAME=abuy
+      - DB_USER=root
+      - DB_PASSWORD=1234
+      - HOST=172.18.0.2
+      - DB_PORT=3306
+      - DB_TYPE=mysql
+      - SECRET_TOKEN =salut
+    ports:
+      - 8080:8080
+    secrets:
+      - db-password
+    volumes:
+      - ./back/:/code/:ro
+      - ./back/package.json:/code/package.json
+      - ./back/package-lock.json:/code/package-lock.json
+      - back-notused:/opt/app/node_modules
+    networks:
+      my-network:
+        ipv4_address: 172.18.0.3
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0.27
+    command: '--default-authentication-plugin=mysql_native_password'
+    restart: always
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      my-network:
+        ipv4_address: 172.18.0.4
+    environment:
+      - MYSQL_DATABASE=abuy
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+      - MYSQL_USER=romain
+      - MYSQL_PASSWORD=/run/secrets/db-password
+  front:
+    build:
+      context: front
+    ports:
+      - 3000:3000
+    volumes:
+      - ./front/src:/code/src
+      - /code/node_modules
+    networks:
+      my-network:
+        ipv4_address: 172.18.0.5
+    depends_on:
+      - back
+networks:
+  my-network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/16
+volumes:
+  back-notused:
+  db-data:
+secrets:
+  db-password:
+    file: ./db/password.txt

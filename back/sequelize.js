@@ -7,7 +7,7 @@ module.exports = async () => {
   if (sequelize) {
     return sequelize;
   }
-  console.log("Les infos : " + process.env.DB_TYPE);
+  console.log("Les infos : " + process.env.DB_TYPE + " " + process.env.DB_HOST + " " + process.env.DB_PORT + " " + process.env.DB_NAME + " " + process.env.DB_USER + " " + process.env.DB_PASSWORD);
   sequelize = new Sequelize({ 
     database: process.env.DB_NAME, 
     username : process.env.DB_USER, 

@@ -6,8 +6,9 @@ const route = require("./routes");
 const async = require("async");
 const getDb = require("./sequelize");
 
-
 async function main() {
+    
+
     const sequelize = await getDb();
     Products = require("./models/modelProducts.js")(sequelize, Sequelize);
     Users = require("./models/modelUsers.js")(sequelize, Sequelize);
